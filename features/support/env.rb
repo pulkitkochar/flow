@@ -3,7 +3,8 @@ require './config/environment'
 
 require 'rspec/rails'
 
-Capybara.app_host = "http://search.yahoo.com/"
+# Capybara.app_host = "http://localhost:9000/"
+Capybara.app_host = "https://uk-staging.thomascook.io/"
 Capybara.run_server = false
 
 Dir["#{Rails.root}/features/pages/**/*.rb"].sort.each do |file|
@@ -12,7 +13,7 @@ end
 
 require "#{Rails.root}/features/steps/wait_steps.rb"
 
-Capybara.default_wait_time = 16
+Capybara.default_wait_time = 20
 
 Spinach.hooks.before_run do
   case ENV['headless']

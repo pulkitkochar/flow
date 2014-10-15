@@ -68,4 +68,17 @@ module WaitSteps
     end
   end
 
+  matcher :turn_true do
+    match do |block|
+      begin
+        Timeout.timeout(30) do
+          sleep(2) until value = block.call
+          value
+        end
+      rescue TimeoutError
+        false
+      end
+    end
+  end
+
 end
