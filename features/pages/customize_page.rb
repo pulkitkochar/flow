@@ -53,22 +53,21 @@ module Pages
     def select_insurance_extra_2adult_1infant_1child(type)
       find('.extra-INSURANCE #insurance').click
 
-      find('.extra-INSURANCE .dayEntry')[0].find('option',text: '10').click
-      find('.extra-INSURANCE .monthEntry')[0].find('option',text: 'April').click
-      find('.extra-INSURANCE .yearEntry')[0].find('option',text: '1996').click
+      all('.extra-INSURANCE .dayEntry')[0].find('option',text: '10').click
+      all('.extra-INSURANCE .monthEntry')[0].find('option',text: 'April').click
+      all('.extra-INSURANCE .yearEntry')[0].find('option',text: '1996').click
 
-      find('.extra-INSURANCE .dayEntry')[1].find('option',text: '1').click
-      find('.extra-INSURANCE .monthEntry')[1].find('option',text: 'January').click
-      find('.extra-INSURANCE .yearEntry')[1].find('option',text: '1991').click
+      all('.extra-INSURANCE .dayEntry')[2].find('option',text: '12').click
+      all('.extra-INSURANCE .monthEntry')[2].find('option',text: 'January').click
+      all('.extra-INSURANCE .yearEntry')[2].find('option',text: '2014').click
+      all('.extra-INSURANCE .dayEntry')[1].find('option',text: '11').click
+      all('.extra-INSURANCE .monthEntry')[1].find('option',text: 'January').click
+      all('.extra-INSURANCE .yearEntry')[1].find('option',text: '1991').click
 
-      find('.extra-INSURANCE .dayEntry')[2].find('option',text: '2').click
-      find('.extra-INSURANCE .monthEntry')[2].find('option',text: 'January').click
-      find('.extra-INSURANCE .yearEntry')[2].find('option',text: '2014').click
 
-      find('.extra-INSURANCE .dayEntry')[3].find('option',text: '2').click
-      find('.extra-INSURANCE .monthEntry')[3].find('option',text: 'August').click
-      find('.extra-INSURANCE .yearEntry')[3].find('option',text: '2005').click
-
+      all('.extra-INSURANCE .dayEntry')[3].find('option',text: '21').click
+      all('.extra-INSURANCE .monthEntry')[3].find('option',text: 'August').click
+      all('.extra-INSURANCE .yearEntry')[3].find('option',text: '2005').click
       find('#getInsuranceQuote').click
       find('#' + type + '-radio').click
 
