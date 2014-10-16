@@ -63,9 +63,9 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightStandardDeposit 
     search_results_page.tc_packages.click
 
     sleep(6)
-    expect { search_results_page.search_results.size }.to greater_than(0)
     expect { search_results_page.dest_locations.size }.to greater_than(0)
     expect { search_results_page.packages_amount.size }.to greater_than(0)
+    expect { search_results_page.search_results.size > 0}.to turn_true
 
     expect { search_results_page.dest_locations[0].present? }.to become_true
     expect { search_results_page.packages_amount[0].present? }.to become_true
@@ -78,7 +78,7 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightStandardDeposit 
   step 'I should get the details of the package' do
     accom_page = Pages::Accom.new
     expect { accom_page.current_page? }.to become_true
-    expect{ accom_page.accom_container.present? }.to become_true
+    expect{ accom_page.accom_container.present? }.to turn_true
     expect{ accom_page.location_label.text }.to become(@srp_location)
     expect{ accom_page.total_amount.text }.to include_text(@srp_amount)
   end
@@ -91,8 +91,22 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightStandardDeposit 
 
   step 'I select the extras which I want to be included in my package' do
     cust_page = Pages::Customize.new
+    expect { cust_page.current_page? }.to turn_true
+    expect { cust_page.page_header.text }.to include_text('Holiday essentials')
+    expect { cust_page.price_section.size }.to become(2)
+    expect { cust_page.total_amount != '' }.to become_true
+    @cust_amount_before_extra = cust_page.total_amount
+    expect { cust_page.location_label }.to become(@srp_location)
+
     cust_page.select_insurance_extra_2adult_1infant_1child('silver')
+    @insurance_label  = cust_page.insurance_extra_label
+    @insurance_amount = cust_page.insurance_extra_amount('silver')
     @cust_amount = cust_page.total_amount
+
+    expect { @cust_amount.delete('^0-9.').to_f }.to become(@cust_amount_before_extra.delete('^0-9.').to_f + @insurance_amount.delete('^0-9.').to_f)
+    # expect { @insurance_label }.to become('Add luggage allowance')
+    # expect { cust_page.extras_in_price.text }.to include_text('Luggage allowance')
+
     cust_page.make_extras_selection
   end
 
@@ -101,6 +115,7 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightStandardDeposit 
     expect { pax_page.current_page? }.to become_true
     expect{ pax_page.total_amount }.to include_text(@cust_amount)
     expect { pax_page.title.visible? }.to become_true
+    expect { pax_page.enter_address_manually_link.visible? }.to become_true
     expect { !pax_page.find('.loading-wrapper img').visible? }.to become_true
     pax_page.set_title('Mr')
     pax_page.set_first_name('Test')

@@ -72,12 +72,14 @@ module Pages
       find('#' + type + '-radio').click
 
       find("#insurance-terms input[type='checkbox']").click
-
-      @insurance_price = find('#' + type + '-quote').text
     end
 
     def insurance_extra_label
       find('.extra-INSURANCE .extras-titles').text
+    end
+
+    def insurance_extra_amount(type)
+      find('#' + type + '-quote').text
     end
 
     def total_amount
