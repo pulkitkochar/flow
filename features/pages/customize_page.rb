@@ -27,27 +27,27 @@ module Pages
     end
 
     def select_3for2_extra
-      find(".extra .extra-OFFER input[type='checkbox']").click
+      find(".extra.extra-OFFER input[type='checkbox']", visible: true).click
     end
 
     def bundled_3for2_label
-      find('.extra .extra-OFFER .extras-titles').text
+      find('.extra.extra-OFFER .extras-titles',).text
     end
 
     def bundled_3for2_amount
-      find('.extra .extra-OFFER .extraPrice').text
+      find('.extra.extra-OFFER .extraPrice').text
     end
 
     def select_luggage_extra
-      find(".extra .extra-BAGGAGE input[type='checkbox']").click
+      find(".extra.extra-BAGGAGE input[type='checkbox']", visible: true).click
     end
 
     def luggage_extra_label
-      find('.extra .extra-BAGGAGE .extras-titles').text
+      find('.extra.extra-BAGGAGE .extras-titles').text
     end
 
     def luggage_extra_amount
-      find('.extra .extra-BAGGAGE .extraPrice').text
+      all('.extra.extra-BAGGAGE .extraPrice').last.text
     end
 
     def select_insurance_extra_2adult_1infant_1child(type)

@@ -24,7 +24,7 @@ module Pages
     end
 
     def set_destination(destination)
-      find('#destination .suggestions ul li', text: destination).click
+      all('#destination .suggestions ul li', text: destination).first.click
     end
 
     def search_origin(origin)
@@ -65,27 +65,27 @@ module Pages
     end
 
     def set_children
-      find('#applyBtn').click
+      find('#applyBtn', visible: true).click
     end
 
     def set_first_child_age(age)
-      all('.suggestions.children ul li:nth-child(1) select option')[age].click
+      find(:xpath, 'id("children0")/following-sibling::div').all('ul li:nth-child(1) select option')[age].click
     end
 
     def set_second_child_age(age)
-      all('.suggestions.children ul li:nth-child(2) select option')[age].click
+      find(:xpath, 'id("children0")/following-sibling::div').all('ul li:nth-child(2) select option')[age].click
     end
 
     def set_third_child_age(age)
-      all('.suggestions.children ul li:nth-child(3) select option')[age].click
+      find(:xpath, 'id("children0")/following-sibling::div').all('ul li:nth-child(3) select option')[age].click
     end
 
     def set_first_child_age_2nd_room(age)
-      all('.suggestions.children ul li:nth-child(1) select option')[age].click
+      find(:xpath, 'id("children1")/following-sibling::div').all('ul li:nth-child(1) select option')[age].click
     end
 
     def set_second_child_age_2nd_room(age)
-      all('.suggestions.children ul li:nth-child(2) select option')[age].click
+      find(:xpath, 'id("children1")/following-sibling::div').all('ul li:nth-child(2) select option')[age].click
     end
 
     def select_month(month)

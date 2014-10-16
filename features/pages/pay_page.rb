@@ -23,35 +23,83 @@ module Pages
     end
 
     def first_passenger_name
-      find('#occupant_0').text
+      all('#occupant_0')[0].text
     end
 
     def first_passenger_dob
-      find('#birthDate_0').text
+      all('#birthDate_0')[0].text
     end
 
     def second_passenger_name
-      find('#occupant_1').text
+      all('#occupant_1')[0].text
     end
 
     def second_passenger_dob
-      find('#birthDate_1').text
+      all('#birthDate_1')[0].text
     end
 
     def third_passenger_name
-      find('#occupant_2').text
+      all('#occupant_2')[0].text
     end
 
     def third_passenger_dob
-      find('#birthDate_2').text
+      all('#birthDate_2')[0].text
     end
 
     def forth_passenger_name
-      find('#occupant_3').text
+      all('#occupant_3')[0].text
     end
 
     def forth_passenger_dob
-      find('#birthDate_3').text
+      all('#birthDate_3')[0].text
+    end
+
+    def fifth_passenger_name
+      all('#occupant_4')[0].text
+    end
+
+    def fifth_passenger_dob
+      all('#birthDate_4')[0].text
+    end
+
+    def sixth_passenger_name
+      all('#occupant_5')[0].text
+    end
+
+    def sixth_passenger_dob
+      all('#birthDate_5')[0].text
+    end
+
+    def first_passenger_room2_name
+      all('#occupant_0')[1].text
+    end
+
+    def first_passenger_room2_dob
+      all('#birthDate_0')[1].text
+    end
+
+    def second_passenger_room2_name
+      all('#occupant_1')[1].text
+    end
+
+    def second_passenger_room2_dob
+      all('#birthDate_1')[1].text
+    end
+
+    def third_passenger_room2_name
+      all('#occupant_2')[1].text
+    end
+
+    def third_passenger_room2_dob
+      all('#birthDate_2')[1].text
+    end
+
+    def forth_passenger_room2_name
+      all('#occupant_3')[1].text
+    end
+
+    def forth_passenger_room2_dob
+      all('#birthDate_3')[1].text
     end
 
     def set_card_type(card)

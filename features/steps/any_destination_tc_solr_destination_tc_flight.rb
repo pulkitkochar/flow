@@ -65,9 +65,9 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlight < Spinach::Feat
     search_results_page.tc_packages.click
 
     sleep(6)
-    expect { search_results_page.search_results.size }.to greater_than(0)
     expect { search_results_page.dest_locations.size }.to greater_than(0)
     expect { search_results_page.packages_amount.size }.to greater_than(0)
+    expect { search_results_page.search_results.size > 0}.to turn_true
 
     expect { search_results_page.dest_locations[0].present? }.to become_true
     expect { search_results_page.packages_amount[0].present? }.to become_true
@@ -80,7 +80,7 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlight < Spinach::Feat
   step 'I should get the details of the package' do
     accom_page = Pages::Accom.new
     expect { accom_page.current_page? }.to become_true
-    expect{ accom_page.accom_container.present? }.to become_true
+    expect{ accom_page.accom_container.present? }.to turn_true
     expect{ accom_page.location_label.text }.to become(@srp_location)
     expect{ accom_page.total_amount.text }.to include_text(@srp_amount)
   end
@@ -104,9 +104,10 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlight < Spinach::Feat
 
   step 'I enter details of all the passengers' do
     pax_page = Pages::Pax.new
-    expect { pax_page.current_page? }.to become_true
+    expect { pax_page.current_page? }.to turn_true
     expect{ pax_page.total_amount }.to include_text(@cust_amount)
     expect { pax_page.title.visible? }.to become_true
+    expect { pax_page.enter_address_manually_link.visible? }.to become_true
     expect { !pax_page.find('.loading-wrapper img').visible? }.to become_true
     pax_page.set_title('Mr')
     pax_page.set_first_name('Test')
@@ -184,7 +185,7 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlight < Spinach::Feat
 
   step 'My Package should get booked successfully' do
     conf_page = Pages::Conf.new
-    # expect { conf_page.current_page? }.to become_true
+    # expect { conf_page.current_page? }.to turn_true
     # expect{ conf_page.header_text }.to become('Congratulations! Your Booking is complete!')
   end
 end

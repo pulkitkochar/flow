@@ -15,13 +15,15 @@ module Pages
     end
 
     def set_email(email)
-      keypress_script = "$('#email').focus().val('#{email}').keyup().blur();"
+      keypress_script = "$('#email').focus().val('#{email}');"
       source.execute_script(keypress_script)
+      source.execute_script("$('#email').keyup().blur();")
     end
 
     def set_confirm_email(email)
-      keypress_script = "$('#leadPassengerConfirmEmail').focus().val('#{email}').keyup().blur();"
+      keypress_script = "$('#leadPassengerConfirmEmail').focus().val('#{email}');"
       source.execute_script(keypress_script)
+      source.execute_script("$('#leadPassengerConfirmEmail').keyup().blur();")
     end
 
     def set_postcode(code)
