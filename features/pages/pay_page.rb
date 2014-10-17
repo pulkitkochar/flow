@@ -18,6 +18,14 @@ module Pages
       find('.stdDeposit input')
     end
 
+    def std_deposit_amount
+      find('.paymentTypeContainer .stdDeposit .price').text
+    end
+
+    def to_pay_today
+      find('.paymentContainer.footer .text-right .price', visible: true).text
+    end
+
     def low_payment_option
       find('.lowDeposit input')
     end

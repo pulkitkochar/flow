@@ -30,7 +30,7 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightStandardDeposit 
     home_page.start_date.click
     home_page.start_date.click
     home_page.select_year('2015')
-    home_page.select_month('Jan')
+    home_page.select_month('Apr')
     home_page.select_date('18')
     home_page.search
   end
@@ -43,7 +43,7 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightStandardDeposit 
     expect { search_results_page.total_results_count }.to greater_than(0)
     expect { search_results_page.destination }.to become('Turkey, Any')
     expect { search_results_page.origin }.to become('Any London')
-    expect { search_results_page.date_of_journey }.to become('18-Jan-2015')
+    expect { search_results_page.date_of_journey }.to become('18-Apr-2015')
     expect { search_results_page.duration }.to become("I don't mind")
     expect { search_results_page.pax_room1 }.to become_true
     expect { search_results_page.pax_room1.text }.to become('Room 1: 2 Adults, 1 Child, 1 Infant')
@@ -164,6 +164,8 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightStandardDeposit 
 
   step 'I enter card details to make payment' do
     pay_page = Pages::Pay.new
+
+    binding.pry
     expect { pay_page.current_page? }.to become_true
     expect{ pay_page.price_section.size }.to become(2)
     expect{ pay_page.total_amount }.to include_text(@cust_amount)
@@ -176,24 +178,33 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightStandardDeposit 
     expect{ pay_page.forth_passenger_name }.to become('Mr Test Test')
     expect{ pay_page.forth_passenger_dob }.to become('21 August 2005')
 
+    pay_page.standard_payment_option.click
+    @std_pay_amount = pay_page.std_deposit_amount
     pay_page.set_card_type('Visa Credit')
     pay_page.set_card_number('4444333322221111')
     pay_page.set_card_expiry_month('Sept')
     pay_page.set_card_expiry_year('2019')
     pay_page.set_card_holder_name('Mr. TEST TEST')
     pay_page.set_card_security_number('123')
+
+    expect{pay_page.to_pay_today}.to include_text(@std_pay_amount)
   end
 
   step 'I make the payment after accepting terms and conditions' do
     pay_page = Pages::Pay.new
     expect { pay_page.current_page? }.to become_true
     pay_page.accept_t_and_c
-    # pay_page.submit_card_details
+
+    if(ENV['allow_payment'] == 'true')
+    pay_page.submit_card_details
+    end
   end
 
   step 'My Package should get booked successfully' do
-    conf_page = Pages::Conf.new
-    # expect { conf_page.current_page? }.to become_true
-    # expect{ conf_page.header_text }.to become('Congratulations! Your Booking is complete!')
+    if(ENV['allow_payment'] == 'true')
+      conf_page = Pages::Conf.new
+      expect { conf_page.current_page? }.to become_true
+      expect{ conf_page.header_text }.to become('Congratulations! Your Booking is complete!')
+    end
   end
 end
