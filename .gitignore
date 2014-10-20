@@ -28,3 +28,4 @@ coverage/*
 *.rdb
 .rvmrc
 .zedstate
+Gemfile.lock
