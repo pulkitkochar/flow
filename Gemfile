@@ -33,12 +33,15 @@ group :doc do
 end
 
 group :test, :development do
-  gem 'rspec-rails', '< 3.0.0'
+  gem 'rspec-rails', '~> 2.12'
   gem 'pry'
   gem 'spinach-rails'
   gem 'poltergeist', '~> 1.1.1'
   gem 'capybara-page-object'
   gem 'selenium-webdriver'
+  gem 'sauce', '~> 3.1.1'
+  gem 'sauce-connect'
+  gem 'parallel_tests'
 end
 
 # Use ActiveModel has_secure_password
