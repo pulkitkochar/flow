@@ -5,8 +5,8 @@ require 'rspec/rails'
 
 ENV['allow_payment']= ENV['allow_payment'] || 'false'
 # Capybara.app_host = "http://localhost:9000/"
-# Capybara.app_host = "https://uk-staging.thomascook.io/"
-Capybara.app_host = "https://uk.qa.eceit.net/"
+Capybara.app_host = "https://uk-staging.thomascook.io/"
+# Capybara.app_host = "https://oneweb-qa.thomascook.com/"
 Capybara.run_server = false
 
 Dir["#{Rails.root}/features/pages/**/*.rb"].sort.each do |file|

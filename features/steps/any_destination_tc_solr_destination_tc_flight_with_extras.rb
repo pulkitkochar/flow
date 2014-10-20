@@ -39,13 +39,12 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightWithExtras < Spi
     search_results_page = Pages::SRP.new
     expect { search_results_page.current_page? }.to become_true
 
-    expect { search_results_page.total_results.size }.to greater_than(1)
-    expect { search_results_page.total_results_count }.to greater_than(0)
+    expect { search_results_page.total_results_count > 0}.to turn_true
     expect { search_results_page.destination }.to become('Turkey, Any')
     expect { search_results_page.origin }.to become('Any London')
     expect { search_results_page.date_of_journey }.to become('10-Mar-2015')
     expect { search_results_page.duration }.to become("I don't mind")
-    expect { search_results_page.pax_room1 }.to become_true
+    expect { search_results_page.pax_room1 }.to turn_true
     expect { search_results_page.pax_room1.text }.to become('Room 1: 2 Adults, 1 Child, 1 Infant')
     expect { search_results_page.edit_button.present? }.to become_true
 
@@ -63,12 +62,10 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightWithExtras < Spi
     search_results_page.tc_packages.click
 
     sleep(6)
-    expect { search_results_page.search_results.size }.to greater_than(0)
-    expect { search_results_page.dest_locations.size }.to greater_than(0)
-    expect { search_results_page.packages_amount.size }.to greater_than(0)
+    expect { search_results_page.search_results.size > 0}.to turn_true
 
     expect { search_results_page.dest_locations[0].present? }.to become_true
-    expect { search_results_page.packages_amount[0].present? }.to become_true
+    expect { search_results_page.packages_amount[0].present? }.to turn_true
     @srp_location = search_results_page.dest_location
     @srp_amount   = search_results_page.total_amount
 
@@ -78,9 +75,12 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightWithExtras < Spi
   step 'I should get the details of the package' do
     accom_page = Pages::Accom.new
     expect { accom_page.current_page? }.to become_true
-    expect{ accom_page.accom_container.present? }.to become_true
+    expect{ accom_page.accom_container.present? }.to turn_true
+    expect { accom_page.price_ticket.visible? }.to turn_true
     expect{ accom_page.location_label.text }.to become(@srp_location)
-    expect{ accom_page.total_amount.text }.to include_text(@srp_amount)
+    expect { accom_page.total_amount.visible? }.to turn_true
+    expect{ accom_page.total_amount.text.delete('^0-9.').to_i }.to become(@srp_amount.delete('^0-9.').to_i)
+    sleep(2)
   end
 
   step 'I go for the booking of selected package' do
@@ -98,15 +98,18 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightWithExtras < Spi
 
   step 'I enter details of all the passengers' do
     pax_page = Pages::Pax.new
-    expect { pax_page.current_page? }.to become_true
+    expect { pax_page.current_page? }.to turn_true
     expect{ pax_page.total_amount }.to include_text(@cust_amount)
     expect { pax_page.title.visible? }.to become_true
+    expect { pax_page.enter_address_manually_link.visible? }.to become_true
     expect { !pax_page.find('.loading-wrapper img').visible? }.to become_true
     pax_page.set_title('Mr')
     pax_page.set_first_name('Test')
     pax_page.set_last_name('Test')
     pax_page.set_email('test@test.com')
+    sleep(2)
     pax_page.set_confirm_email('test@test.com')
+    sleep(2)
     pax_page.set_postcode('PE3 8SB')
 
     pax_page.enter_address_manually_link.click
@@ -181,7 +184,7 @@ class Spinach::Features::AnyDestinationTcSolrDestinationTcFlightWithExtras < Spi
   step 'My Package should get booked successfully' do
     if(ENV['allow_payment'] == 'true')
       conf_page = Pages::Conf.new
-      expect { conf_page.current_page? }.to become_true
+      expect { conf_page.current_page? }.to turn_true
       expect{ conf_page.header_text }.to become('Congratulations! Your Booking is complete!')
     end
   end

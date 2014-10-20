@@ -15,11 +15,11 @@ module Pages
     end
 
     def total_results
-      all('#test-holiday-total')
+      find('.hidden-xs .holidaysFoundTitle #test-holiday-total')
     end
 
     def total_results_count
-      total_results[1].text.gsub(/[^0-9]/, '').to_i
+      total_results.text.delete('^0-9.').to_i
     end
 
     def search_results
@@ -92,7 +92,7 @@ module Pages
     end
 
     def packages_amount
-      all('.row.bold.total-price .pull-right',visible: true)
+      all('.savingContainer .total-price')
     end
 
     def total_amount

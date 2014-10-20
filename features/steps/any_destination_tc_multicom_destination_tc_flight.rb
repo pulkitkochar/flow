@@ -45,13 +45,13 @@ class Spinach::Features::AnyDestinationTcMulticomDestinationTcFlight < Spinach::
   step 'I should get Multicom packages in search results' do
     search_results_page = Pages::SRP.new
     expect { search_results_page.current_page? }.to become_true
-    expect { search_results_page.search_results.size > 0 }.to turn_true
-    expect { search_results_page.total_results_count }.to greater_than(0)
+
+    expect { search_results_page.total_results_count > 0}.to turn_true
     expect { search_results_page.destination }.to become('Rome, Italy')
     expect { search_results_page.origin }.to become('Any London')
     expect { search_results_page.date_of_journey }.to become('24-Nov-2014')
     expect { search_results_page.duration }.to become('7 Nights')
-    expect { search_results_page.pax_room1 }.to become_true
+    expect { search_results_page.pax_room1 }.to turn_true
     expect { search_results_page.pax_room1.text }.to become('Room 1: 1 Adult, 1 Child')
     expect { search_results_page.pax_room2.text }.to become('Room 2: 2 Adults, 1 Child, 1 Infant')
     expect { search_results_page.edit_button.present? }.to become_true
@@ -65,12 +65,10 @@ class Spinach::Features::AnyDestinationTcMulticomDestinationTcFlight < Spinach::
   step 'I select first Multicom package' do
     search_results_page = Pages::SRP.new
     expect { search_results_page.current_page? }.to become_true
-    expect { search_results_page.dest_locations.size }.to greater_than(0)
-    expect { search_results_page.packages_amount.size }.to greater_than(0)
     expect { search_results_page.search_results.size > 0 }.to turn_true
 
     expect { search_results_page.dest_locations[0].present? }.to become_true
-    expect { search_results_page.packages_amount[0].present? }.to become_true
+    expect { search_results_page.packages_amount[0].present? }.to turn_true
     @srp_location = search_results_page.dest_location
     @srp_amount   = search_results_page.total_amount
 
@@ -81,8 +79,11 @@ class Spinach::Features::AnyDestinationTcMulticomDestinationTcFlight < Spinach::
     accom_page = Pages::Accom.new
     expect { accom_page.current_page? }.to become_true
     expect { accom_page.accom_container.present? }.to turn_true
-    expect { accom_page.location_label.text }.to become(@srp_location)
-    # expect{ accom_page.total_amount.text }.to include_text(@srp_amount)
+    expect { accom_page.price_ticket.visible? }.to turn_true
+    expect{ accom_page.location_label.text }.to become(@srp_location)
+    expect { accom_page.total_amount.visible? }.to turn_true
+    # expect{ accom_page.total_amount.text.delete('^0-9.').to_i }.to become(@srp_amount.delete('^0-9.').to_i)
+    sleep(2)
   end
 
   step 'I go for the booking of selected package' do
@@ -124,7 +125,9 @@ class Spinach::Features::AnyDestinationTcMulticomDestinationTcFlight < Spinach::
     pax_page.set_first_name('Test')
     pax_page.set_last_name('Test')
     pax_page.set_email('test@test.com')
+    sleep(2)
     pax_page.set_confirm_email('test@test.com')
+    sleep(2)
     pax_page.set_postcode('PE3 8SB')
 
     pax_page.enter_address_manually_link.click
@@ -198,23 +201,31 @@ class Spinach::Features::AnyDestinationTcMulticomDestinationTcFlight < Spinach::
     expect { pay_page.forth_passenger_room2_dob }.to become('12 March 2003')
 
     pay_page.set_card_type('Visa Credit')
+    # pay_page.standard_payment_option.click
+    # @std_pay_amount = pay_page.std_deposit_amount
     pay_page.set_card_number('4444333322221111')
     pay_page.set_card_expiry_month('Sept')
     pay_page.set_card_expiry_year('2019')
     pay_page.set_card_holder_name('Mr. TEST TEST')
     pay_page.set_card_security_number('123')
+
+    # expect{pay_page.to_pay_today}.to include_text(@std_pay_amount)
   end
 
   step 'I make the payment after accepting terms and conditions' do
     pay_page = Pages::Pay.new
     expect { pay_page.current_page? }.to become_true
     pay_page.accept_t_and_c
-    # pay_page.submit_card_details
+    if(ENV['allow_payment'] == 'true')
+      pay_page.submit_card_details
+    end
   end
 
   step 'My Package should get booked successfully' do
-    conf_page = Pages::Conf.new
-    # expect { conf_page.current_page? }.to become_true
-    # expect{ conf_page.header_text }.to become('Congratulations! Your Booking is complete!')
+    if(ENV['allow_payment'] == 'true')
+      conf_page = Pages::Conf.new
+      expect { conf_page.current_page? }.to become_true
+      expect{ conf_page.header_text }.to become('Congratulations! Your Booking is complete!')
+    end
   end
 end

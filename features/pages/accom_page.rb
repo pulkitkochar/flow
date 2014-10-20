@@ -10,6 +10,10 @@ module Pages
       find('.accomHotelContainer')
     end
 
+    def price_ticket
+      find('#priceTicket')
+    end
+
     def location_label
       find('.accomHotelContainer p.breadcrumb')
     end
@@ -19,7 +23,7 @@ module Pages
     end
 
     def book_now
-      find('.bookNowButton').click
+      find('#bookNow.bookNowButton').click
     end
 
   end

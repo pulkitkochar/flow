@@ -63,7 +63,7 @@ module WaitSteps
           value
         end
       rescue TimeoutError
-        false
+        raise Exception.new("'#{block}' is false")
       end
     end
   end
@@ -76,7 +76,7 @@ module WaitSteps
           value
         end
       rescue TimeoutError
-        false
+        raise Exception.new("'#{block}' is false")
       end
     end
   end

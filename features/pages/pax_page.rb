@@ -14,16 +14,16 @@ module Pages
       find('#surname').set(name)
     end
 
-    def set_email(email)
-      keypress_script = "$('#email').focus().val('#{email}');"
+      def set_email(email)
+      keypress_script = "$('#email').val('#{email}');"
       source.execute_script(keypress_script)
-      source.execute_script("$('#email').keyup().blur();")
+      source.execute_script("$('#email').blur();")
     end
 
     def set_confirm_email(email)
-      keypress_script = "$('#leadPassengerConfirmEmail').focus().val('#{email}');"
+      keypress_script = "$('#leadPassengerConfirmEmail').val('#{email}');"
       source.execute_script(keypress_script)
-      source.execute_script("$('#leadPassengerConfirmEmail').keyup().blur();")
+      source.execute_script("$('#leadPassengerConfirmEmail').blur();")
     end
 
     def set_postcode(code)
