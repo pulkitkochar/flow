@@ -10,6 +10,10 @@ module Pages
       find('#editSearchResults')
     end
 
+    def is_mobile?
+      all('.mobileButtonRow').size > 0
+    end
+
     def search_button
       find('#searchBtn')
     end
@@ -19,7 +23,15 @@ module Pages
     end
 
     def total_results_count
-      total_results.text.delete('^0-9.').to_i
+      to_integer(total_results.text)
+    end
+
+    def m_total_results
+      to_integer(all('#test-holiday-total')[0].text)
+    end
+
+    def to_integer(string)
+      string.delete('^0-9.').to_i
     end
 
     def search_results
@@ -34,8 +46,16 @@ module Pages
       find(:xpath, "//div[@facet-title='Brand']")
     end
 
+    def m_package_types
+      all(:xpath, "//div[@facet-title='Brand']").first
+    end
+
     def tc_packages
       find(:xpath, "//span[text()='Thomas Cook']/../input[@type='checkbox']")
+    end
+
+    def m_tc_packages
+      all(:xpath, "//span[text()='Thomas Cook']/../input[@type='checkbox']").first
     end
 
     def destination

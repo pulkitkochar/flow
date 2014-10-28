@@ -62,6 +62,11 @@ module Pages
       all('.price.price-footer').first.text
     end
 
+    def m_total_amount
+      all('.price.price-footer')[1].text
+    end
+
+
     def title
       find('#title')
     end

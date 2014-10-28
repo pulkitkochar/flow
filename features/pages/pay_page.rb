@@ -10,6 +10,10 @@ module Pages
       all('.price.price-footer').first.text
     end
 
+    def m_total_amount
+      all('.price.price-footer')[1].text
+    end
+
     def price_section
       all('.totalPriceFrom')
     end

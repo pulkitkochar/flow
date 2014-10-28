@@ -1,9 +1,10 @@
 == README
 
-BOOTSTRAP: Spinach-Ruby Test Framework
+web-flow-tests
 ============================
 
-This framework is to setup spinach - page object based automation testing for Ruby on Rails project.
+A proof of concept repo for e2e flow tests.
+It is based on spinach - page object based automation testing using Ruby on Rails.
 
 It has 'features' directory which further has 4 parts.
 * 'support' contains all basic settings that are required to:
@@ -35,6 +36,14 @@ Steps to run tests from Commandline:
     * For Chrome run command: driver=chrome bundle exec rake spinach
 * Headless mode:
     * Run command: headless=false bundle exec rake spinach
+* Sauce Labs:
+    * Open ~/.bash_profile and add the following lines:
+            export SAUCE_USERNAME={username}
+            export SAUCE_ACCESS_KEY={access_key}
+    * Source ~/.bash_profile
+    * Run command: sauce=true bundle exec rake spinach
+    * To change the browser configuration for sauce labs, see sauce_helper.rb under support directory.
+
 
 PS: You can download chrome driver from https://code.google.com/p/selenium/wiki/ChromeDriver
 

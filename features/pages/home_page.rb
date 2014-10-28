@@ -11,7 +11,7 @@ module Pages
     end
 
     def search
-      find('#searchBtn').click
+        find('#searchBtn').click
     end
 
     def search_destination(destination)
